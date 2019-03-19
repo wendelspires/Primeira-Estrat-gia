@@ -9,6 +9,7 @@
 #Testes OHLC (Preliminary Check)
 
 ##Teste1 (Inconsistente)
+- Depósito: 10.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Ativo: WIN$D
 - Sinal: Cruzamento 2 médias - Ao cruzar as médias
@@ -19,6 +20,7 @@
 - Resultado: -3796,00
 
 ##Teste2 (Inconsistente)
+- Depósito: 10.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Sinal: Cruzamento 2 médias - Ao cruzar as médias
 - Ativo: WIN$D
@@ -29,6 +31,7 @@
 - Resultado: -701,00
 
 ##Teste3 (Inconsistente)
+- Depósito: 10.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Sinal: Cruzamento 2 médias - Ao cruzar as médias
 - Ativo: WIN$D
@@ -40,6 +43,7 @@
 - Resultado: -2438,00
 
 ##Teste4 (Inconsistente)
+- Depósito: 10.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Sinal: Cruzamento 2 médias - Ao cruzar as médias
 - Ativo: WIN$D
@@ -51,6 +55,7 @@
 - Resultado: -761
 
 ##Teste5 (Consistente)
+- Depósito: 10.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Filtro: Cruzamento 2 médias - Max/Min do candle cruzando médias
 - Ativo: WIN$D
@@ -67,6 +72,7 @@
 - Filtro de Tendência por média móvel
 
 ##Teste6 (Consistente)
+- Depósito: 10.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Filtro: Cruzamento 2 médias - Ao cruzar as médias
 - Ativo: PETR3
@@ -82,6 +88,7 @@
 - Drawdown: 3,60%
 
 ##Teste7 (Consistente)
+- Depósito: 50.000,00 
 - Período: 01/01/2015 - 01/01/2019
 - Filtro: Cruzamento 2 médias - Ao cruzar as médias
 - Ativo: PETR3
@@ -94,3 +101,62 @@
 - Retorno Esperado: 45.63
 - Negociações com lucro: 58,62%
 - Drawdown: 3,39%
+
+##Teste8 (Inconsistente)
+- Depósito: 50.000,00 
+- Período: 01/01/2015 - 01/01/2019
+- Filtro: Cruzamento 2 médias - Ao cruzar as médias
+- Ativo: ITUB4
+- Ordem: A mercado
+- Volume Fixo: 1000
+- TP: 2%
+- SL: 2%
+- Resultado: -5690,00
+- Fator de Lucro: 0.65
+- Retorno Esperado: -72.03
+- Negociações com lucro: 40,51%
+- Drawdown: 14,26%
+
+##Teste8 (Inconsistente)
+- Depósito: 50.000,00 
+- Período: 01/01/2015 - 01/01/2019
+- Filtro: Cruzamento 2 médias - Ao cruzar as médias
+- Ativo: VALE3
+- Ordem: A mercado
+- Volume Fixo: 1000
+- TP: 2%
+- SL: 2%
+- Resultado: -16150,00
+- Fator de Lucro: 0.56
+- Retorno Esperado: -158.33
+- Negociações com lucro: 41,18%
+- Drawdown: 35,61%
+
+##Teste9 (Inconsistente)
+- Período: 01/01/2015 - 01/01/2019
+- Filtro: Cruzamento 2 médias - Ao cruzar as médias
+- Ativo: GGBR4
+- Ordem: A mercado
+- Volume Fixo: 1000
+- TP: 2%
+- SL: 2%
+- Resultado: -2750,00
+- Fator de Lucro: 0.76
+- Retorno Esperado: -27.78
+- Negociações com lucro: 41,18%
+- Drawdown: 35,61%
+
+##Teste10 (Inconsistente)
+- Período: 01/01/2015 - 01/01/2019
+- Filtro: Cruzamento 2 médias - Ao cruzar as médias
+- Ativo: PETR4
+- Ordem: A mercado
+- Volume Fixo: 1000
+- TP: 2%
+- SL: 2%
+- Resultado: -1290,00
+- Fator de Lucro: 0.88
+- Retorno Esperado: -15.18
+- Negociações com lucro: 45,88%
+- Drawdown: 6,62%
+
