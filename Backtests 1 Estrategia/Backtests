@@ -81,5 +81,16 @@
 - Negociações com lucro: 56,16%
 - Drawdown: 3,60%
 
-
-
+##Teste7 (Consistente)
+- Período: 01/01/2015 - 01/01/2019
+- Filtro: Cruzamento 2 médias - Ao cruzar as médias
+- Ativo: PETR3
+- Ordem: A mercado
+- Volume Fixo: 1000
+- TP: 2%
+- SL: 2%
+- Resultado: 3970,00
+- Fator de Lucro: 1.42
+- Retorno Esperado: 45.63
+- Negociações com lucro: 58,62%
+- Drawdown: 3,39%
