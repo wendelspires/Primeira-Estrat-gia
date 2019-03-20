@@ -1,10 +1,21 @@
+#Importar as bibliotecas
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
 import seaborn as sns
 
+#importar o .csv e separar por ";"
 path = ("C:\\Dados\\Teste.csv")
 df = pd.read_csv(path, delimiter=';')
-
 df.head()
+
+#Remove columns 
+df = df.drop(['Pass','Result','Expected Payoff','Profit Factor','Sharpe Ratio','Recovery Factor','Custom','Equity DD %','Trades'],axis=1)
+
+#Passando as colunas para matriz 7x7
+graph = df.pivot_table(index='TP',columns='SL',values='Profit')
+print (graph)
+
+#Elaborar um heatmap 
+sns.heatmap(graph, annot=True, fmt="d",).invert_yaxis()
