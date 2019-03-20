@@ -1,0 +1,9 @@
+import pandas as pd
+
+path = ('C:\\Dados\\WIN@D_M1.csv')
+
+#passar a coluna DATE e TIME para serem os índices
+df = pd.read_csv(path, delimiter ='\t', parse_dates=[['<DATE>','<TIME>']],index_col=0)
+
+#identificar o tipo das colunas do dataframe
+df.dtypes
