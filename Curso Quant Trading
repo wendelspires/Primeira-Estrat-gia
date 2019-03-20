@@ -1,0 +1,34 @@
+#Curso de Python
+
+##Pandas Básico
+
+import pandas as pd
+import numpy as np
+
+#ler o csv, delimitando com tab "\t"
+path=('C:\\Dados\\WIN@D_M1.csv')
+df = pd.read_csv(path, delimiter='\t')
+
+#início do dataframe
+df.head()
+
+#final do dataframe
+df.tail()
+
+#selecionar coluna e duas colunas
+df[['<CLOSE>','<LOW>']].head()
+
+#filtrar no dataframe
+df[df['<TICKVOL>']>=2000].head()
+
+#filtrar por data
+df[df['<DATE>']<'2019.01.10'].head()
+
+#filtros compostos
+df[(df['<TICKVOL>']<2000) & (df['<VOL>']>4000)].head()
+
+#agrupar os dados
+df.groupby(df['<DATE>']).mean()
+
+#remover colunas
+df = df.drop('<SPREAD>',axis=1)
