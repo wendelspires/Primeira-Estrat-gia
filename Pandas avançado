@@ -6,4 +6,7 @@ path = ('C:\\Dados\\WIN@D_M1.csv')
 df = pd.read_csv(path, delimiter ='\t', parse_dates=[['<DATE>','<TIME>']],index_col=0)
 
 #identificar o tipo das colunas do dataframe
-df.dtypes
+df.head()
+
+#Juntar os dados de 1 min para gerar dados no timeframe de 5 min ou qualquer outro timeframe
+df = df.resample('5min').agg({'<OPEN>':'first','<HIGH>':'max','<LOW>':'min','<CLOSE>':'last','<TICKVOL>':'sum','<VOL>':'sum','<SPREAD>':'last'})
