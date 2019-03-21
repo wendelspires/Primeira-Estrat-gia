@@ -18,4 +18,4 @@ graph = df.pivot_table(index='TP',columns='SL',values='Profit')
 print (graph)
 
 #Elaborar um heatmap 
-sns.heatmap(graph, annot=True, fmt="d",).invert_yaxis()
+sns.heatmap(graph, annot=True, fmt="d",cmap="RdYlGn").invert_yaxis()
