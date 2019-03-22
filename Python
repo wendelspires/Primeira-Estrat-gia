@@ -17,5 +17,23 @@ df = df.drop(['Pass','Result','Expected Payoff','Profit Factor','Sharpe Ratio','
 graph = df.pivot_table(index='TP',columns='SL',values='Profit')
 print (graph)
 
-#Elaborar um heatmap 
+#criar um heatmap da tabela, com o eixo y invertido, com titúlo
+
+ax = plt.axes()
 sns.heatmap(graph, annot=True, fmt="d",cmap="RdYlGn").invert_yaxis()
+
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
+#print (color.BOLD + 'Hello World !' + color.END)
+
+ax.set_title("Lucro/Prejuízo \n",fontname="Times New Roman",fontweight="bold", fontsize=20)
+plt.show()
