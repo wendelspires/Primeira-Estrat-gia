@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+
+#my portfolio
+
+stocks = ['IRBR3.SA','BBDC4.SA','WIZS3.SA','COGN3.SA','TAEE11.SA','ITSA4.SA','AZUL4.SA','USIM5.SA','VVAR3.SA']
+
+df = pd.DataFrame()
+for i in stocks:
+    df[i] = wb.DataReader(i, data_source='yahoo', start='1995-1-1')['Adj Close']
+    
+df.head()
+df.tail()
+df.info()
+df.iloc[0]
+
+#Normalization to 100
+normalization = (df/df.iloc[0] * 100)
+normalization.plot(figsize =(15,6))
+plt.show()
+
+df.iloc[0]
+
+#calculating the return of my portfolio
+returns = (df/df.shift(1))-1
+returns.head()
+
+#calculate annual_returns
+annual_returns = returns.mean()*250
+annual_returns
+
+#weights of stocks in portfolio
+weights = np.array([0.1,0.125,0.125,0.1,0.125,0.125,0.1,0.1,0.1])
+#calculate matrix with np.dot
+np.dot(annual_returns,weights)
+
+my_portfolio = str(round(np.dot(annual_returns,weights),5) * 100 ) + ' %'
+print (my_portfolio)
