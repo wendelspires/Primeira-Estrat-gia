@@ -1,0 +1,48 @@
+#simple return
+import numpy as np
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+
+BBDC4 = wb.DataReader('BBDC4.SA', data_source='yahoo', start='1995-1-1')
+BBDC4.head()
+BBDC4.tail()
+
+#Simple Rate of Return
+# (p1/p0)-1
+
+BBDC4['simple_return'] = (PG['Adj Close'] / PG['Adj Close'].shift(1)) - 1
+print (PG['simple_return'])
+
+BBDC4['simple_return'].plot(figsize=(8,5))
+plt.show()
+
+#daily avg simple returns
+avg_returns_d = BBDC4['simple_return'].mean()
+avg_returns_d
+
+#anual avg simple returns
+avg_returns_a = BBDC4['simple_return'].mean() * 250
+avg_returns_a
+
+#logarithmic returns
+import numpy as np
+import pandas as pd
+from pandas_datareader import data as wb
+
+BBDC4 = wb.DataReader('BBDC4.SA', data_source='yahoo', start='1995-1-1')
+BBDC4
+
+#create column log_return
+BBDC4['log_return'] = np.log(BBDC4['Adj Close']/BBDC4['Adj Close'].shift(1))
+print (BBDC4['log_return'])
+
+BBDC4['log_return'].plot(figsize=(8,5))
+plt.show()
+
+#daily log return
+avg_logreturn_d = BBDC4['log_return'].mean()
+avg_logreturn_d
+
+#anual log return
+avg_logreturn_a = BBDC4['log_return'].mean() * 250
+avg_logreturn_a
