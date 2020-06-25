@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#load the data
+path = ('C:\\Users\\wende\\OneDrive\\Área de Trabalho\\5_stocks_2000_2017.csv')
+mydata = pd.read_csv(path,index_col='Date')
+
+#normalization to 100
+mydata.iloc[0]
+
+#normalization to 100
+normalization = (mydata/mydata.iloc[0])
+normalization.plot(figsize=(15,6))
+plt.show()
+
+#calculating the return of a portfolio
+returns = (mydata/mydata.shift(1))-1
+returns.head()
+
+#annual returns
+annual_returns = returns.mean()*250
+annual_returns
+
+#weights of stocks of portfolio
+weights = [0.15,0.2,0.15,0.25,0.25]
+
+#calculate matrix with np.dot
+return_portfolio = np.dot(annual_returns,weights)
+
+#result
+final = str(round(return_portfolio,4)*100) + ' %'
+final
