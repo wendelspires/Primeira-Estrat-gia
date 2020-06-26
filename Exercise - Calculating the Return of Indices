@@ -1,0 +1,25 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+#load the data
+path = ('C:\\Users\\wende\\Downloads\\Indices_Exercise_Data.csv')
+
+df = pd.read_csv(path, index_col='Date')
+df.head()
+df.tail()
+
+#normalization to 100
+#Attention with with index_col = 'Date'
+normalization = (df/df.iloc[0]) * 100
+normalization.plot(figsize=(15,6))
+plt.show()
+
+#simple return of indices
+simple_return = (df/df.shift(1)) - 1
+simple_return
+
+#annual returns
+annual_returns = simple_return.mean() * 250
+annual_returns * 100
