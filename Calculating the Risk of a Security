@@ -1,0 +1,42 @@
+import pandas as pd
+import numpy as np
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+
+stocks = ['PG','BEI.DE']
+
+df = pd.DataFrame ()
+
+for i in stocks:
+    df[i] = wb.DataReader(i, data_source='yahoo',start = '2007-1-1')['Adj Close']
+    
+df.tail()
+df.head()
+
+#normalization to 100
+((df/df.iloc[0]) * 100).plot(figsize=(15,6))
+plt.show()
+
+#returns logarithmic
+log_returns = np.log(df/df.shift(1))
+log_returns
+
+returns_pg = log_returns['PG']
+
+#calculate daily mean of pg
+returns_pg.mean()
+
+#calculate annualy mean of pg
+returns_pg.mean() * 250
+
+#calculate volatility
+returns_pg.std()
+
+#calculate annaly volatility
+#to calculate anually volatily we need to squared roof of number os days(250^0.5)
+returns_pg.std() * 250 ** 0.5
+
+print("the Daily mean of Pg is: ",round(returns_pg.mean(),4)*100)
+print("the Annualy mean of Pg is: ",round(returns_pg.mean() * 250,4)*100)
+print("the Daily Standard Deviation of Pg is: ", round(returns_pg.std(),4) * 100)
+print("the Annualy Standard Deviation of Pg is: ",round(returns_pg.std()* 250 ** 0.5,4) * 100)
