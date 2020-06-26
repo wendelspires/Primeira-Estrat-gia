@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+
+#import indices
+
+# ibov, s&p, dow jones, nasdaq, ftse(londres), dax 30
+#indices = ['^BVSP', '^GSPC','^DJI','^IXIC','^GDAXI','^N225','^N100','^HSI']
+indices = ['^BVSP', '^GSPC','^DJI','^IXIC']
+
+data = pd.DataFrame()
+
+for i in indices:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2008-1-1')['Adj Close']
+    
+data.head()
+
+#normalization to 100
+normalization = (data/data.iloc[0]) * 100
+normalization.plot(figsize=(15,6))
+plt.show()
+
+#calculate returns of indices
+returns = (data/data.shift(1)) - 1
+returns.tail()
+
+#annual returns
+annual_returns = returns.mean() * 250
+final = str(round(annual_returns,4) * 100)
+print (final)
+
+#compare stocks with indices
+
+stocks2 = ['GOOG','^DJI','^GSPC']
+
+df2 = pd.DataFrame()
+
+for i in stocks2:
+    df2[i] = wb.DataReader(i, data_source='yahoo', start='2008-1-1')['Adj Close']
+    
+#normalization to 100
+normalization2 = (df2/df2.iloc[0]) * 100
+normalization2.plot(figsize=(15,6))
+plt.show()    
+    
