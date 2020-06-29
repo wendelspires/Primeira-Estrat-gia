@@ -1,0 +1,44 @@
+#import modules
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['PG', 'BEI.DE']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2001-1-1')['Adj Close']
+    
+data.tail()
+
+#log returns
+log_returns = (data / data.shift(1))
+log_returns
+
+#calculating variance of pg
+pg_var = log_returns['PG'].var()
+pg_var_annually = pg_var * 250
+
+print(pg_var)
+print(pg_var_annually)
+
+bei_var = log_returns['BEI.DE'].var()
+bei_var_annually = bei_var * 250
+
+print(bei_var)
+print(bei_var_annually)
+
+#covariance of stocks
+cov_matrix = log_returns.cov()
+cov_matrix_annually = cov_matrix * 250
+cov_matrix_annually
+
+#correlation of stocks
+corr_matrix = log_returns.corr()
+corr_matrix_annually = corr_matrix
+corr_matrix_annually
+
+# never multiplicate correlation with 250
+# the correlation of returns are different of the correlation with the prices
