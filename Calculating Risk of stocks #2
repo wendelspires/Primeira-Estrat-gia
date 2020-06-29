@@ -1,0 +1,45 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['PG','BEI.DE' ]
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2007-1-1')['Adj Close']
+    
+data.tail()
+
+#normalization to 100
+normalization = (data/data.iloc[0])
+normalization.plot(figsize=(15,6))
+plt.show()
+
+#log returns
+log_returns = np.log(data / data.shift(1))
+log_returns
+
+#mean of PG
+pg_returns = log_returns['PG']
+pg_mean = pg_returns.mean ()
+pg_mean_annually = mean * 250
+
+#standart deviation
+pg_std = pg_returns.std()
+pg_std_annually = std * 250 ** 0.5
+
+print (pg_mean_annually)
+print (pg_std_annually)
+
+#mean of BEI.DE
+beide_returns = log_returns['BEI.DE']
+bd_mean = beide_returns.mean()
+bd_mean_annually = mean * 250
+
+#standart deviation
+bd_std = beide_returns.std()
+bd_std_annually = bd_std * 250 ** 0.5
+
+print(bd_mean_annually)
+print (bd_std_annually)
