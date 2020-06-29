@@ -1,0 +1,41 @@
+#import modules
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['MSFT', 'AAPL']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2000-1-1')['Adj Close']
+data.tail()    
+    
+#log returns
+log_returns = np.log(data / data.shift(1))
+log_returns
+
+#mean microsoft
+msft = log_returns['MSFT']
+msft_mean = msft.mean()
+msft_mean_annually = msft_mean *250
+
+#stardart deviation
+msft_std = msft.std()
+msft_std_annually = msft_std * 250 ** 0.5
+
+print (msft_mean_annually)
+print (msft_std_annually)
+
+#mean apple
+aapl = log_returns['AAPL']
+aapl_mean = aapl.mean()
+aapl_mean_annual = aapl_mean * 250
+
+#standart deviation
+aapl_std = aapl.std()
+aapl_std_annually = aapl_std * 250 ** 0.5
+
+print (aapl_mean_annual)
+print (aapl_std_annually)
