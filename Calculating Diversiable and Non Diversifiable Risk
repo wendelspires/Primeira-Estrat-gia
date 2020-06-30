@@ -1,0 +1,55 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['PG', 'BEI.DE']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2007-1-1')['Adj Close']
+    
+#log returns = np.log (data / data.shift(1))
+#simple returns = (data / data.shift (1)) - 1
+
+log_returns = np.log(data / data.shift(1))
+log_returns
+
+#weights of stocks in portfolio
+weights = np.array([0.5,0.5])
+
+#portfolio variance
+pfolio_var = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))
+pfolio_var
+
+#portfolio volatility - when we calculate a volatility (standart deviation, we need to elevate a 0.5)
+pfolio_vol = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)) ** 0.5
+pfolio_vol
+
+#variance of PG
+pg_variance_annually = log_returns['PG'].var() * 250
+pg_variance_annually
+
+#variance of BEI.DE
+bd_variance_annually = log_returns['BEI.DE'].var() * 250
+bd_variance_annually
+
+print(pg_variance_annually)
+print(bd_variance_annually)
+
+#calculating diversifiable and non-diversifiable risk
+
+#diversifiable risk
+
+# portfolio variance - ((w1)² * var1) - ((w2)² * var2)
+dr = pfolio_var - (weights[0] ** 2 * pg_variance_annually) - ( weights[1] ** 2 * bd_variance_annually)
+dr
+print (str(round(dr*100,3)) + ' %')
+
+#non diversifiable risk
+
+# n_dr = pfolio_var - dr
+n_dr = pfolio_var - dr
+print (n_dr)
+
