@@ -1,0 +1,43 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['WMT', 'FB']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2014-1-1')['Adj Close']
+data.tail()    
+    
+#log returns
+#log returns = np.log (data/data.shift(1))
+#simple returns = (data/data.shift(1)) - 1
+
+log_returns = np.log(data / data.shift(1))
+log_returns
+
+#mean of wmt
+wmt = log_returns['WMT']
+wmt_mean = wmt.mean()
+wmt_mean_annually = wmt_mean * 250
+
+#standart deviation
+wmt_std = wmt.std()
+wmt_std_annually = wmt_std * 250 ** 0.5
+
+print (wmt_mean_annually)
+print (wmt_std_annually)
+
+#covariance and correlation
+
+covar = log_returns.cov()
+covar_annually = covar * 250
+covar_annually
+
+#correlation
+
+corr = log_returns.corr()
+corr
+    
