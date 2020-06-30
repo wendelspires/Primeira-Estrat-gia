@@ -1,0 +1,57 @@
+#import modules
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['MSFT','AAPL']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2007-1-1')['Adj Close']
+data.tail()
+
+#log returns = np.log (data / data.shift(1))
+#simple returns = (data / data.shift(1)) - 1
+
+log_returns = np.log(data/data.shift(1))
+log_returns
+
+#mean of msft
+msft = log_returns['MSFT']
+msft_mean = msft.mean()
+msft_mean_annually = msft_mean * 250
+
+#std of msft
+msft_std = msft.std()
+msft_std_annually = msft_std * 250 ** 0.5
+
+#mean of aapl
+aapl = log_returns['AAPL']
+aapl_mean = aapl.mean()
+aapl_mean_annually = aapl_mean * 250
+
+#std of aapl
+aapl_std = aapl.std()
+aapl_std = aapl_std * 250 * 0.5
+
+#covariance
+cov_matrix = log_returns.cov() * 250
+cov_matrix
+
+#correlation
+corr_matrix = log_returns.corr()
+corr_matrix
+
+#weights
+weights = np.array([0.5,0.5])
+
+#portfolio variance
+pfolio_var = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))
+pfolio_var
+
+#portfolio volatility
+pfolio_vol = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)) ** 0.5
+pfolio_vol
+    
