@@ -1,0 +1,50 @@
+#import modules
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+#stocks
+stocks = ['PG','BEI.DE']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2007-1-1')['Adj Close']
+data.tail()
+
+#log returns = np.log (data / data.shift(1))
+#simple return = (data / data.shift(1)) - 1
+
+log_returns = np.log(data/data.shift(1))
+log_returns
+
+#mean of PG
+pg = log_returns['PG']
+pg_mean = pg.mean()
+pg_mean_annually = pg_mean * 250
+
+#std of pg
+pg_std = pg.std()
+pg_std_annually = pg_std * 250 ** 0.5
+
+#mean of bei.de
+bd = log_returns['BEI.DE']
+bd_mean = bd.mean()
+bd_mean_annually = bd_mean * 250
+
+#std of bei.de
+bd_std = bd.std()
+bd_std_annually = bd_std * 250 * 0.5
+
+#weights
+weights = np.array([0.5,0.5])
+
+#portfolio variance
+pfolio_var = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))
+pfolio_var
+
+#portfolio volatility
+pfolio_vol = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)) ** 0.5
+pfolio_vol
+    
