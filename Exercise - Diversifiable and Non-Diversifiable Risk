@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+
+stocks = ['MSFT','AAPL']
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader (i, data_source='yahoo', start='2007-1-1')['Adj Close']
+    
+#log returns
+log_returns = np.log(data / data.shift(1))
+log_returns
+
+#weights of portfolio
+weights = np.array([0.5,0.5])
+
+#calculating portfolio variance
+pfolio_var = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))
+pfolio_var
+
+#calculating portfolio volatility
+pfolio_vol = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)) ** 0.5
+pfolio_vol
+
+#diversifiable risk
+# dr = portfolio_var - ((w1)² * var1) - ((w2)² * var2)
+dr = pfolio_var - ((weights[0]**2 * log_returns['MSFT'].var() * 250)) - (weights[1]**2 * log_returns['AAPL'].var() * 250)
+dr
+
+n_dr = pfolio_var- dr
+n_dr
