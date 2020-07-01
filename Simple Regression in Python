@@ -1,0 +1,37 @@
+#variaveis explicativas = tamanho da casa
+#variaveis dependentes = preço da casa
+# A regressão linear prossupõe a existência de uma relação LINEAR entre as duas variáveis
+# A linha reta da regressão é a solução adequada para nos ajudar a DESCREVER o relacionamento entre essas 2 variáveis.
+# Temos que achar a linha da regressão que MINIMIZE o erro observado entre a própria linha e dados da observação
+
+import pandas as pd
+import numpy as np
+from scipy import stats
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+
+path = ('C:\\Users\\wende\\Downloads\\Housing.xlsx')
+data = pd.read_excel(path)
+data
+
+data[['House Price', 'House Size (sq.ft.)']]
+
+#X = Variable independent
+x = data['House Size (sq.ft.)']
+y = data['House Price']
+
+#chart of dispersion
+plt.scatter(x,y)
+plt.show()
+
+#use the axis([0,2500, 0,150000])
+plt.scatter(x,y)
+plt.axis([0, 2500, 0, 1500000])
+plt.show()
+
+#create titles at chart
+plt.scatter(x,y)
+plt.axis([0,2500 , 0, 1500000])
+plt.ylabel('House Price')
+plt.xlabel('House Size (sq.ft.)')
+plt.show()
