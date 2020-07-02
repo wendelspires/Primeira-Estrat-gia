@@ -1,0 +1,83 @@
+import pandas as pd
+import numpy as np
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#my portfolio stocks
+#stocks = ['BBDC4.SA','WIZS3.SA','COGN3.SA','TAEE11.SA','ITSA4.SA','USIM5.SA','VVAR3.SA']
+stocks = ['IRBR3.SA','BBDC4.SA','WIZS3.SA','COGN3.SA','TAEE11.SA','ITSA4.SA','AZUL4.SA','USIM5.SA','VVAR3.SA']
+
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2010-1-1')['Adj Close']
+data.head()
+
+#log returns = np.log(data/data.shift(1))
+log_returns = np.log(data/data.shift(1))
+log_returns.head()
+
+#normalization to 100
+normalization = (data/data.iloc[0]) * 100
+normalization.plot(figsize=(15,6))
+plt.show()
+
+#mean
+mean = log_returns.mean() * 250
+
+#covariance
+cov = log_returns.cov() * 250
+
+#correlation
+corr = log_returns.corr()
+
+#number of stocks
+num_stocks = len(stocks)
+num_stocks
+
+#random weights = 1
+weights = np.random.random(num_stocks)
+weights /= np.sum(weights)
+weights
+
+np.sum(weights)
+
+#expected portfolio returns
+expected_returns = np.sum(weights * log_returns.mean()) * 250
+expected_returns
+
+#variance of portfolio
+pfolio_var = np.dot(weights.T , np.dot(log_returns.cov() * 250, weights))
+print (pfolio_var)
+
+#volatility of portfolio
+pfolio_vol = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)) ** 0.5
+print (pfolio_vol)
+
+pfolio_returns = []
+pfolio_volatilities = []
+
+for x in range(1000):
+    weights = np.random.random(num_stocks)
+    weights /= np.sum(weights)
+    pfolio_returns.append (np.sum(weights * mean))
+    pfolio_volatilities.append (np.sqrt(pfolio_var))
+
+    
+pfolio_returns = np.array(pfolio_returns)
+pfolio_volatilities = np.array(pfolio_volatilities)
+pfolio_returns, pfolio_volatilities                  
+
+my_portfolio = pd.DataFrame({'Return':pfolio_returns, 'Volatility':pfolio_volatilities})
+my_portfolio.tail()
+
+my_portfolio.plot(x='Volatility' , y='Return', kind='scatter', figsize=(10,6));
+plt.xlabel('Expected Volatility')
+plt.ylabel('Expected Return')
+
+
+
+
+    
