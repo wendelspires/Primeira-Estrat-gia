@@ -1,0 +1,23 @@
+import pandas as pd
+import numpy as np
+from pandas_datareader import data as wb
+
+stocks = ['PG', '^GSPC']
+data = pd.DataFrame()
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo', start='2012-1-1', end='2016-12-31')['Adj Close']
+log_returns = np.log(data/data.shift(1))
+log_returns
+
+cov = log_returns.cov() * 250
+cov
+
+cov_with_market = cov.iloc[0,1]
+cov_with_market
+
+#variância do s&p 500
+market_var = log_returns['^GSPC'].var() * 250
+market_var
+
+PG_Beta = cov_with_market / market_var
+PG_Beta    
