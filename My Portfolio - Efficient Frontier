@@ -1,0 +1,94 @@
+#import modules
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas_datareader.data as wb
+from datetime import datetime
+
+#import stocks
+
+stocks = ['IRBR3.SA','BBDC4.SA','WIZS3.SA','COGN3.SA','TAEE11.SA','ITSA4.SA','AZUL4.SA','USIM5.SA','VVAR3.SA']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.get_data_yahoo(i, start='2016-1-1')['Adj Close']
+    
+#details of data
+data.describe()
+
+data.tail()
+
+#log returns = np.log (data/data.shift(1))
+#log_returns = np.log(data/data.shift(1))
+#log_returns
+
+#simple return
+simple_return = (data/data.shift(1)) - 1
+simple_return
+
+#mean
+mean = simple_return.mean() * 250
+mean
+
+#covariance
+cov = simple_return.cov() * 250
+cov
+
+#correlation
+corr = simple_return.corr()
+corr
+
+#creating list for store the variables
+return_of_stocks = []
+weights_stocks = []
+volatility = []
+sharpe_ratio = []
+
+#simulando portfólios
+num_stocks = len(stocks)
+num_pfolios = 100000
+np.random.seed(101)
+
+#loop for write in list of variables
+for i in range(num_pfolios):
+    #random weights for each stock
+    weights = np.random.random(num_stocks)
+    weights /= np.sum(weights)
+    
+    #calculate the returns of the portfolios
+    pfolio_return = np.dot(weights, mean)
+    
+    #calculate volatility of portfolio
+    pfolio_vol = np.sqrt(np.dot(weights.T, np.dot(cov, weights)))
+    
+    #calculate sharpe ratio
+    sharpe = (pfolio_return/pfolio_vol)
+    
+    #append to add in list
+    sharpe_ratio.append(sharpe)
+    return_of_stocks.append(pfolio_return)
+    weights_stocks.append(weights)
+    volatility.append(pfolio_vol)
+    
+#create dictionaries with data
+pfolio = {'Return': return_of_stocks,
+         'Volatility': volatility,
+         'Sharpe Ratio': sharpe_ratio}
+
+for count,stock in enumerate(stocks):
+    pfolio[stock+'Weight'] = [Weights[count] for Weights in weights_stocks]
+
+#transform to a dataframe
+df = pd.DataFrame(pfolio)
+df
+
+#create efficient frontier
+plt.style.use('seaborn-dark')
+df.plot.scatter(x='Volatility',y='Return', c='Sharpe Ratio',
+               cmap='RdYlGn', edgecolors='black',figsize=(10,8), grid=True)
+plt.xlabel('Volatility')
+plt.ylabel('Espected Return')
+plt.title('Efficient Frontier of Markowitz')
+plt.show()
+
