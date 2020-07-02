@@ -1,0 +1,58 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+import statsmodels.api as sm
+
+path = ('C:\\Users\\wende\\Downloads\\Housing.xlsx')
+data = pd.read_excel(path)
+data
+
+#X Variable independent
+X = data['House Size (sq.ft.)']
+Y = data['House Price']
+
+plt.scatter(X,Y)
+plt.axis([0,2500,0,1500000])
+plt.ylabel('House Price')
+plt.xlabel('House Size')
+plt.show()
+
+# O R² nos ajuda a identificar o quão é válido os nossos dados para análise.
+# Usar o statsmodels para executar uma regressão linear
+# Devemos incluir uma constante no modelo da regressão.
+
+X1 = sm.add_constant (X)
+
+#executar a regressão
+reg = sm.OLS(Y, X1).fit()
+reg.summary()
+
+#R-squared = 67,80% - o aumento do tamanho da casa pode explicar 67,8% do do aumento dos preços (regressão muito forte)
+#const = alpha = quando desenhamos a linha de regressão, esse será o ponto inicial no eixo Y = 260.800
+#Beta = house size = a cada aumento de pé quadrado no tamanho de uma casa, o valor da casa sobe 401.92 dólares valor 
+#Beta = (inclinação da linha de regressão)
+#std err = quer dizer que o desvio padrão é de $65
+
+#calculate with scipy
+slope, intercept, r_value, p_value, std_err = stats.linregress(X,Y)
+
+#slope = beta (inclinação)
+slope
+
+#intercept = alpha = ponto inicial da regressão no eixo y
+intercept
+
+r_value
+
+#R² = R squared = o aumento do tamanho da casa, explica 67,8% do aumento do tamanho do preço
+r_value ** 2
+
+p_value
+
+#desvio padrão
+std_err
+
+
+
+
