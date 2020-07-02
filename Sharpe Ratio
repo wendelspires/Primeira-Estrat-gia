@@ -1,0 +1,46 @@
+#O índice de sharpe compara o desempenho de um investimento a um ativo livre de risco
+#Quanto maior o índice de sharpe, melhor será o seu retorno por "Unidade de risco"
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from pandas_datareader import data as wb
+
+stocks = ['PG', '^GSPC']
+
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader(i, data_source='yahoo',start='2010-1-1')['Adj Close']
+    
+log_returns = np.log(data/data.shift(1))
+log_returns
+
+#covariance
+cov = log_returns.cov() * 250
+
+#select without matrix. iloc[row,colum]
+cov_with_market = cov.iloc[0,1]
+print (cov_with_market)
+
+#market_var
+market_var = log_returns['^GSPC'].var() * 250
+print (market_var)
+
+#calculating beta
+
+pg_beta = cov_with_market/market_var
+pg_beta
+
+#return of market
+return_market = log_returns['^GSPC'].mean() * 250
+return_market
+
+#calculating CAPM
+pg_expected_return = (0.0067 + pg_beta * (0.05))
+pg_expected_return
+
+#calculating the sharpe ratio
+# (expeted return - risk free / annually standard deviation)
+
+sharpe = (pg_expected_return - 0.0067) / (log_returns['PG'].std() * 250 ** 0.5)
+sharpe
