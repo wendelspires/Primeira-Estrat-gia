@@ -1,0 +1,106 @@
+import numpy as np
+import pandas as pd
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#compare pg with s&p 500
+stocks = ['PG', '^GSPC']
+data = pd.DataFrame()
+
+for i in stocks:
+    data[i] = wb.DataReader (i, data_source='yahoo', start='2010-1-1', end='2017-03-24')['Adj Close']
+data.tail()
+
+#normalization to 100
+(data / data.iloc[0]).plot(figsize=(10,5))
+plt.show()
+
+#log returns = np.log (data/data.shift(1))
+log_returns = np.log (data/ data.shift(1))
+log_returns
+
+# annually mean
+mean = log_returns.mean() * 250
+print(mean)
+
+#covariance
+covariance = log_returns.cov() * 250
+print(covariance)
+
+#correlation
+correlation = log_returns.corr()
+print(correlation)
+
+#count the number of the stocks
+num_stocks = len(stocks)
+num_stocks
+
+#random weights = 1
+weights = np.random.random(num_stocks)
+weights /= np.sum(weights)
+weights
+
+weights[0] + weights[1]
+
+#Expected Portfolio Return
+
+#expected return of stocks
+expected_returns = np.sum(weights * log_returns.mean()) * 250
+expected_returns
+
+#variance of portfolio
+pfolio_var = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))
+print (pfolio_var)
+
+#volatility of portfolio
+pfolio_var = np.dot(weights.T, np.dot(log_returns.cov() * 250, weights)) ** 0.5
+print (pfolio_var)
+
+#vamos agora simular 1000 combinações diferentes dos mesmos ativos com seus respectivos pesos
+#criar uma lista vazia de retornos do portfolio e volatilidade do portfolio(sd)
+pfolio_returns = []
+pfolio_volatilities = []
+
+#criar um loop de 1000 voltas combinando os respectivos pesos do portfolio e salvar esses resultados na lista em branco
+
+for x in range(1000):
+    weights = np.random.random(num_stocks)
+    weights /= np.sum(weights)
+    #adicionar os valores testados na lista pflio_returns e pfolio_volatilities
+    pfolio_returns.append(np.sum(weights * log_returns.mean()) * 250)
+    pfolio_volatilities.append(np.sqrt(np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))))
+
+pfolio_returns, pfolio_volatilities
+
+#criando arrays para evitar as listas
+
+pfolio_returns = []
+pfolio_volatilities = []
+
+#criar um loop de 1000 voltas combinando os respectivos pesos do portfolio e salvar esses resultados na lista em branco
+
+for x in range(1000):
+    weights = np.random.random(num_stocks)
+    weights /= np.sum(weights)
+    #adicionar os valores testados na lista pflio_returns e pfolio_volatilities
+    pfolio_returns.append(np.sum(weights * log_returns.mean()) * 250)
+    pfolio_volatilities.append(np.sqrt(np.dot(weights.T, np.dot(log_returns.cov() * 250, weights))))
+
+pfolio_returns = np.array(pfolio_returns)
+pfolio_volatilities = np.array(pfolio_volatilities)
+
+pfolio_returns, pfolio_volatilities
+
+portfolios = pd.DataFrame({'Return': pfolio_returns, 'Volatility': pfolio_volatilities})
+portfolios.head()
+portfolios.tail()
+
+portfolios.plot(x='Volatility' , y='Return', kind='scatter', figsize=(10,6));
+plt.xlabel('Expected Volatility')
+plt.ylabel('Expected Return')
+
+
+
+
+    
