@@ -1,0 +1,53 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#receita média = distribuição normal = 170
+rev_m = 170
+
+#devio padrão na distribuição normal = 20
+rev_stdev = 20
+
+#iterações da simulação de monte carlo
+iterations = 1000
+
+#efetuar 1000 simulações de receitas futuras
+#numpy.random.normal (distribuição normal)
+rev = np.random.normal(rev_m, rev_stdev,iterations)
+rev
+
+plt.figure(figsize=(15,6))
+plt.plot(rev)
+plt.show()
+
+#custo de mercadorias vendidas (CMV) => no inglês (COGS)
+#nos dados históricos, temos que os CMVs ficam em torno de 60,50% da receita. Com isso, vamos utilizar um D.P de 10%
+#numpy.random.normal(mean,std)
+cogs = - (rev * np.random.normal(0.6,0.1))
+
+plt.figure(figsize=(15,6))
+plt.plot(cogs)
+plt.show()
+
+cogs.mean()
+cogs.std()
+
+#para calcular o cogs utilizamos um número negativo. E na hora de calcular o lucro bruto, usamos número positivo para subtrair.
+gross_profit = rev + cogs
+gross_profit
+
+plt.figure(figsize=(15,6))
+plt.plot(gross_profit)
+plt.show()
+
+#obtendo o número máximo e mínimo
+print (max (gross_profit))
+print (min (gross_profit))
+
+#obtendo a média e o desvio padrão
+print (gross_profit.mean())
+print (gross_profit.std())
+
+#plotar o histograma com a distribuição normal
+plt.figure (figsize=(15,6))
+plt.hist(gross_profit, bins=20)
+plt.show()
