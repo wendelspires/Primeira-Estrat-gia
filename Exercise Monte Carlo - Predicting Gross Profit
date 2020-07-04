@@ -1,0 +1,33 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#mean of revenues = médias da receita
+rev_m = 200
+
+#std of revenues = desvio padrão das receitas
+rev_std = 20
+
+#total iterations
+iterations = 256
+
+#calculate the revenues and cogs
+rev = np.random.normal(rev_m,rev_std,iterations)
+cogs = - (rev * np.random.normal(0.4,0.2))
+
+cogs.mean(), cogs.std()
+
+gross_profit = rev + cogs
+gross_profit
+
+plt.figure(figsize=(15,6))
+plt.plot(gross_profit)
+plt.show()
+
+max (gross_profit)
+min (gross_profit)
+print (gross_profit.mean())
+print (gross_profit.std())
+
+plt.figure(figsize=(15,6))
+plt.hist(gross_profit,bins=20)
+plt.show()
