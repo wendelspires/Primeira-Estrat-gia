@@ -1,0 +1,99 @@
+import numpy as np
+import pandas as pd
+from pandas_datareader import data as wb
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+%matplotlib inline
+
+stock = ['PG']
+data = pd.DataFrame()
+data[stock] = wb.DataReader(stock, data_source='yahoo',start='2007-1-1', end='2017-1-1')['Adj Close']
+
+#log returns
+log_returns = np.log(1 + data.pct_change())
+log_returns
+data.plot()
+log_returns.plot(figsize = (15,6))
+
+# u = retornos médios logarítimicos
+u = log_returns.mean()
+u
+
+var = log_returns.var()
+var
+
+### Drift = u - (1/2) x Var
+
+drift = u - (0.5 * var)
+drift
+
+stdev = log_returns.std()
+stdev
+
+### Movimento Browniano
+#### r = drift + stdev * e^r
+
+type (drift)
+type (stdev)
+
+#transformar o pandas series.series para um numpy array
+drift.values
+stdev.values
+
+### Variável Aleatória Z ###
+
+Esse número corresponde a distância entre a média e os eventos. Expresso pelo número de desvio padrão.
+
+#### Se um evento tem uma probabilidade de 95% de acontecer. Através do módulo Scipy.norm teremos o número do desvio padrão
+
+norm.ppf(0.95)
+
+x = np.random.rand(10,2)
+x
+
+#calcular o número dos devios padrões dos números aleatórios de x
+norm.ppf(x)
+
+#Criar uma variável com números aleatórios (10 linhas e 2 colunas)
+Z = norm.ppf(np.random.rand(10,2))
+Z
+
+#simulação dos preços daqui a 1000 dias
+t_intervals = 1000
+iterations = 10
+
+#### Daily_returns = e^r
+#### r = drift + (stdev x Z)
+
+#np.exp para números logarítimicos
+daily_returns = np.exp(drift.values + stdev.values * norm.ppf(np.random.rand(t_intervals,iterations)))
+daily_returns
+
+#### St = S0 * Daily_returns (matrix)
+#### St(t+1) = St * Daily_returns (matrix)
+
+#último preço da PG
+S0 = data.iloc[-1]
+S0
+
+#para criar um array com as mesmas dimensões do daily_returns e deixar tudo zerado para preenchermos
+price_list = np.zeros_like(daily_returns)
+price_list
+
+#definindo a primeira linha de preços. S0
+price_list[0] = S0
+price_list
+
+#efetuar um loop para 1000 simulações de preços a partir do S0
+for i in range(1, t_intervals):
+    price_list[i] = price_list[i-1] * daily_returns[i]
+    
+#simulação de Monte Carlo
+# A simulação nos informará quais os 10 possíveis caminhos
+plt.figure(figsize=(10,6))
+plt.plot(price_list)
+plt.show()
+
+
+
+
