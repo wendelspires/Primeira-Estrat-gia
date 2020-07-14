@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 #my portfolio
 
-stocks = ['IRBR3.SA','BBDC4.SA','WIZS3.SA','COGN3.SA','TAEE11.SA','ITSA4.SA','AZUL4.SA','USIM5.SA','VVAR3.SA']
+stocks = ['IRBR3.SA','BBDC4.SA','WIZS3.SA','COGN3.SA','MILS3.SA','ITSA4.SA','USIM5.SA','VVAR3.SA']
 
 df = pd.DataFrame()
 for i in stocks:
